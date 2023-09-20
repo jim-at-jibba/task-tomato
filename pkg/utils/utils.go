@@ -6,8 +6,7 @@ import (
 	"os"
 )
 
-func SetUpPath() (string, error) {
-	var err error
+func SetUpPath() string {
 	dirname, err := os.UserHomeDir()
 	if err != nil {
 		log.Fatal(err)
@@ -20,5 +19,5 @@ func SetUpPath() (string, error) {
 		}
 	}
 
-	return path, nil
+	return path
 }

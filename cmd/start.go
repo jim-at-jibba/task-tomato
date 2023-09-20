@@ -6,8 +6,9 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/jim-at-jibba/task-tomato/pkg/db"
+	"github.com/jim-at-jibba/task-tomato/pkg/utils"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 )
 
 // startCmd represents the start command
@@ -20,12 +21,15 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		fmt.Println("start called")
-		val := viper.Get("debug")
-		val2 := viper.Get("pomodoro.duration")
-		val3 := viper.Get("pomodoro.break")
-		fmt.Println("PATH:", val, val2, val3)
+		t, err := db.OpenDB(utils.SetUpPath())
+		if err != nil {
+			return err
+		}
+		defer t.DB.Close()
+
+		return nil
 	},
 }
 
